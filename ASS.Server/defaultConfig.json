@@ -1,0 +1,21 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Debug"
+    }
+  },
+  "GRPC": {
+    "Port": 5001,
+    "Host": "0.0.0.0"
+  },
+  "Repository": {
+    "URL": "https://github.com/Aurorastation/Aurora.3.git"
+  },
+  "BYOND": {
+    "Version": {
+      "Major": 512,
+      "Minor": 1467
+    }
+  },
+  "WorkDir": "work"
+}

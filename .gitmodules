@@ -1,0 +1,3 @@
+[submodule "ASS.API"]
+	path = ASS.API
+	url = https://github.com/Aurorastation/A.S.S.-RPC-protobuffs.git
