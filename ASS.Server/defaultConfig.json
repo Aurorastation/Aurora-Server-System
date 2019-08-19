@@ -15,7 +15,8 @@
     "Version": {
       "Major": 512,
       "Minor": 1467
-    }
+    },
+    "Dir": "BYOND"
   },
   "WorkDir": "work"
 }

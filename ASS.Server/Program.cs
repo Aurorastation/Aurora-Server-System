@@ -50,6 +50,7 @@ namespace ASS.Server
                 })
                 .AddSingleton(sp => new GrpcService(sp))
                 .AddSingleton<InstanceService>()
+                .AddSingleton<ByondService>()
                 .AddSingleton<HttpClient>();
                 ;
             return services.BuildServiceProvider();

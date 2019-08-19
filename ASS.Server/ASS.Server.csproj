@@ -6,7 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Emet.FileSystems" Version="0.0.1-alpha1" />
     <PackageReference Include="Grpc" Version="1.22.0" />
+    <PackageReference Include="LibGit2Sharp" Version="0.26.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.2.0" />
@@ -29,7 +31,6 @@
 
   <ItemGroup>
     <Folder Include="Attributes\" />
-    <Folder Include="Extensions\" />
   </ItemGroup>
 
 </Project>
