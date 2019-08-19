@@ -90,7 +90,7 @@ namespace ASS.Server.Services
                 throw new Exception($"Byond version '{version.Major}.{version.Minor}' data mismatches folder name or ByondVersion data. Please manually remove this version.");
             if (Directory.Exists(GetByondDirectoryPath()))
                 Directory.Delete(GetByondDirectoryPath());
-            Emet.FileSystems.FileSystem.CreateSymbolicLink(getByondVersionDirectoryName(version), GetByondDirectoryPath());
+            FileSystemHelper.CreateRelativeSymbolicLink(GetByondDirectoryPath(version), GetByondDirectoryPath(), Emet.FileSystems.FileType.Directory);
             if (!version.Equals(getVersion()))
                 throw new Exception($"Byond version switch failed.");
         }
