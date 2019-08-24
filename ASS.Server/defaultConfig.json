@@ -9,7 +9,15 @@
     "Host": "0.0.0.0"
   },
   "Repository": {
-    "URL": "https://github.com/Aurorastation/Aurora.3.git"
+    "URL": "https://github.com/Aurorastation/Aurora.3.git",
+    "Branch": "",
+    "Author": {
+      "Name": "Aurora Server System",
+      "Email": "ass@aurorastation.org"
+    }
+    "Credentials": {
+      "github.com/Aurorastation/Aurora.3.git": {}
+    }
   },
   "BYOND": {
     "Version": {
