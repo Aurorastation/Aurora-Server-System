@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using System.IO.Compression;
 using System.IO;
 using Google.Protobuf;
+using Microsoft.Extensions.Logging;
 
 namespace ASS.Server.Services
 {
@@ -23,13 +24,14 @@ namespace ASS.Server.Services
         HttpClient httpclient;
         IConfiguration config;
         IConfiguration globalConfig;
+        ILogger logger;
 
-        public ByondService(HttpClient _httpClient, IConfiguration configuration)
+        public ByondService(HttpClient _httpClient, IConfiguration configuration, ILogger<ByondService> log)
         {
             httpclient = _httpClient;
             globalConfig = configuration;
             config = configuration.GetSection("BYOND");
-            
+            logger = log;
         }
 
         public static string GetDownloadUrl(int major, int minor) => GetDownloadUrl(major.ToString(), minor.ToString());
@@ -83,9 +85,15 @@ namespace ASS.Server.Services
         public async Task SwitchToVersion(ByondVersion version)
         {
             if (version.Equals(getVersion()))
+            {
+                logger.LogInformation($"Server is on {version.Major}.{version.Minor} version. No switch is needed.");
                 return;
+            }
             if (!Directory.Exists(GetByondDirectoryPath(version)))
+            {
+                logger.LogInformation($"Version {version.Major}.{version.Minor} is not installed. Downloading and installing...");
                 await DownloadByond(version);
+            }
             if (!getVersion(GetByondDirectoryPath(version)).Equals(version))
                 throw new Exception($"Byond version '{version.Major}.{version.Minor}' data mismatches folder name or ByondVersion data. Please manually remove this version.");
             if (Directory.Exists(GetByondDirectoryPath()))
