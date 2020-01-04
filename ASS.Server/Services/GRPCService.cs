@@ -14,6 +14,7 @@ namespace ASS.Server.Services
         IServiceProvider _sp;
         ILogger logger;
         IConfiguration config;
+        public bool IsInitilized { get; private set; } = false;
 
         public GrpcService(IServiceProvider sp) : this(sp.GetRequiredService<IConfiguration>())
         {
@@ -29,6 +30,7 @@ namespace ASS.Server.Services
 
         public void Initialize()
         {
+            IsInitilized = true;
             Services.Add(API.Instance.BindService(_sp.GetRequiredService<InstanceService>()));
             Start();
             logger.LogInformation($"gRPC server listening on {config["GRPC:Host"]}:{config["GRPC:Port"]}");

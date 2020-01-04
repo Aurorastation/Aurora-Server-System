@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ASS.Server.Services
 {
-    class ByondService : Byond.ByondBase
+    public class ByondService : Byond.ByondBase
     {
         const string BYOND_LATEST_URL = "https://secure.byond.com/download/build/LATEST/";
         const string BYOND_DOWNLOAD_URL = "https://secure.byond.com/download/build/";

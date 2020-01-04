@@ -1,12 +1,28 @@
 {
   "Logging": {
     "LogLevel": {
-      "Default": "Debug"
+      "Default": "Debug",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
     }
   },
   "GRPC": {
-    "Port": 5001,
+    "Port": 5002,
     "Host": "0.0.0.0"
+  },
+  "Kestrel": {
+    "Limits": {
+      "MaxConcurrentConnections": 100,
+      "MaxConcurrentUpgradedConnections": 100
+    },
+    "EndPoints": {
+      "Http": {
+        "Url": "http://0.0.0.0:5000"
+      },
+      "Https": {
+        "Url": "https://0.0.0.0:5001"
+      }
+    }
   },
   "Repository": {
     "URL": "https://github.com/Aurorastation/Aurora.3.git",
@@ -14,7 +30,7 @@
     "Author": {
       "Name": "Aurora Server System",
       "Email": "ass@aurorastation.org"
-    }
+    },
     "Credentials": {
       "github.com/Aurorastation/Aurora.3.git": {}
     }
@@ -22,7 +38,7 @@
   "BYOND": {
     "Version": {
       "Major": 512,
-      "Minor": 1467
+      "Minor": 1488
     },
     "Dir": "BYOND"
   },

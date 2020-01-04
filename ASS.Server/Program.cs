@@ -6,54 +6,37 @@ using System.Threading.Tasks;
 using ASS.Server.Services;
 using ASS.Server.Helpers;
 using System.Net.Http;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Hosting;
+using ASS.Server.Web;
 
 namespace ASS.Server
 {
     class Program
     {
         static void Main(string[] args)
-           => new Program().MainAsync(args).GetAwaiter().GetResult();
+           => CreateHostBuilder(args).Build().Run();
 
 
-        public async Task MainAsync(string[] args)
-        {
-            
-            using (var services = ConfigureServices(args))
-            {
-                Grpc.Core.GrpcEnvironment.SetLogger(new GrpcLoggingWraper(services.GetRequiredService<ILogger<GrpcService>>()));
-                var grpc = services.GetRequiredService<GrpcService>();
-                grpc.Initialize();
-                await Task.Delay(-1);
-            }
-        }
-
-        private ServiceProvider ConfigureServices(string[] args)
-        {
-            // Stage 1 services
-            var services = new ServiceCollection()
-                .AddSingleton<IConfiguration>(sp =>
-                    new ConfigurationBuilder()
-                    .AddJsonFile("defaultConfig.json", false, false)
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder()
+                .ConfigureAppConfiguration((hbc, cb) =>
+                    cb.AddJsonFile("defaultConfig.json", false, false)
                     .AddJsonFile("config.json", true, false)
                     .AddEnvironmentVariables()
                     .AddCommandLine(args)
-                    .Build()
-                );
-            var serviceProvider = services.BuildServiceProvider();
-            // Stage 2 services
-            services
-                .AddLogging(c =>
+                )
+                .ConfigureServices((hbc, sc) =>
+                    sc.AddSingleton(sp => new GrpcService(sp)) // This service is not started.
+                    .AddSingleton<InstanceService>()
+                    .AddSingleton<ByondService>()
+                    .AddSingleton<HttpClient>()
+                )
+                .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    c.ClearProviders();
-                    c.AddConsole();
-                    c.AddConfiguration(serviceProvider.GetRequiredService<IConfiguration>().GetSection("Logging"));
+                    webBuilder.UseStartup<Startup>();
                 })
-                .AddSingleton(sp => new GrpcService(sp))
-                .AddSingleton<InstanceService>()
-                .AddSingleton<ByondService>()
-                .AddSingleton<HttpClient>();
-                ;
-            return services.BuildServiceProvider();
-        }
+
+            ;
     }
 }
